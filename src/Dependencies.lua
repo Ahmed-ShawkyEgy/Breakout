@@ -7,6 +7,7 @@ require 'src/Util'
 
 require 'src/Paddle'
 require 'src/Ball'
+require 'src/Birck'
 
 require 'src/states/BaseState'
 require 'src/states/StartState'
