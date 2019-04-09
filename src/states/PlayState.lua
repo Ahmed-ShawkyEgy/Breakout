@@ -6,6 +6,10 @@ function PlayState:enter(params)
     self.health = params.health
     self.score = params.score
     self.ball = params.ball
+    self.level = params.level
+    self.highScores = params.highScores
+
+    self.recoverPoints = 5000
 
     -- give ball random starting velocity
     self.ball.dx = math.random(-200, 200)
@@ -54,6 +58,12 @@ function PlayState:update(dt)
 
             self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
+            if self.score > self.recoverPoints then
+                            self.health = math.min(3, self.health + 1)
+                            self.recoverPoints = math.min(100000, self.recoverPoints * 2)
+                            gSounds['recover']:play()
+            end
+
 
             if self:checkVictory() then
                 gSounds['victory']:play()
@@ -63,6 +73,8 @@ function PlayState:update(dt)
                     paddle = self.paddle,
                     health = self.health,
                     score = self.score,
+                    highScores = self.highScores,
+                    recoverPoints = self.recoverPoints,
                     ball = self.ball
                 })
             end
@@ -100,14 +112,18 @@ function PlayState:update(dt)
 
           if self.health == 0 then
               gStateMachine:change('game-over', {
-                  score = self.score
+                  score = self.score,
+                  highScores = self.highScores
               })
           else
               gStateMachine:change('serve', {
                   paddle = self.paddle,
                   bricks = self.bricks,
                   health = self.health,
-                  score = self.score
+                  score = self.score,
+                  highScores = self.highScores,
+                  level = self.level,
+                  recoverPoints = self.recoverPoints
               })
           end
       end
