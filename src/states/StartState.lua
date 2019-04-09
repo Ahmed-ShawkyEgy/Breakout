@@ -12,24 +12,25 @@ function StartState:update(dt)
         gSounds['paddle-hit']:play()
     end
 
-   if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-       gSounds['confirm']:play()
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        gSounds['confirm']:play()
 
-       if highlighted == 1 then
-         gStateMachine:change('paddle-select', {
-              highScores = self.highScores
-          })
-          else
-          gStateMachine:change('high-scores', {
-              highScores = self.highScores
-          })
-       end
-   end
+        if highlighted == 1 then
+            gStateMachine:change('paddle-select', {
+                highScores = self.highScores
+            })
+        else
+            gStateMachine:change('high-scores', {
+                highScores = self.highScores
+            })
+        end
+    end
 
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
 end
+
 
 function StartState:render()
     love.graphics.setFont(gFonts['large'])
